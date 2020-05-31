@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="585.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.bmn.controller.MainController">
+     <Button fx:id="convertPnP" cancelButton="true" defaultButton="true" layoutX="153.0" layoutY="33.0" onMouseClicked="#onClickConvertPnP" prefHeight="45.0" prefWidth="280.0" text="convert pnp" textAlignment="CENTER">
+      <font>
+         <Font size="21.0" />
+      </font>
+      <textFill>
+         <LinearGradient endX="1.0" endY="1.0" startX="0.3333333333333333">
+            <stops>
+               <Stop color="BLACK" />
+               <Stop color="WHITE" offset="1.0" />
+            </stops>
+         </LinearGradient>
+      </textFill>
+   </Button>
+   <Button fx:id="assign" cancelButton="true" defaultButton="true" layoutX="153.0" layoutY="95.0" onAction="#onClickVerifyAssign" prefHeight="45.0" prefWidth="280.0" text="проверить assign и спеку" textAlignment="CENTER">
+      <font>
+         <Font size="21.0" />
+      </font>
+      <textFill>
+         <LinearGradient endX="1.0" endY="1.0" startX="0.3333333333333333">
+            <stops>
+               <Stop color="BLACK" />
+               <Stop color="WHITE" offset="1.0" />
+            </stops>
+         </LinearGradient>
+      </textFill>
+   </Button>
+   <Button fx:id="redirectSB" cancelButton="true" defaultButton="true" layoutX="153.0" layoutY="155.0" onAction="#onClickRedirectSB" prefHeight="45.0" prefWidth="280.0" text="создать сборку" textAlignment="CENTER">
+      <font>
+         <Font size="21.0" />
+      </font>
+      <textFill>
+         <LinearGradient endX="1.0" endY="1.0" startX="0.3333333333333333">
+            <stops>
+               <Stop color="BLACK" />
+               <Stop color="WHITE" offset="1.0" />
+            </stops>
+         </LinearGradient>
+      </textFill>
+   </Button>
+   <effect>
+      <Blend />
+   </effect>
+
+</AnchorPane>
