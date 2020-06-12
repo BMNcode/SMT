@@ -27,9 +27,9 @@ public class PnPConvert {
                 String mathReplace = matcher.group().replace("X", "").replace("Y", " ");
                 String[] splitMatch = mathReplace.split(" ");
                 for(int i = 0; i < splitMatch.length; i++) {
-                    Double d = BigDecimal.valueOf((Double.parseDouble(splitMatch[i]))/10000)
+                    double d = BigDecimal.valueOf((Double.parseDouble(splitMatch[i]))/10000)
                             .setScale(3, RoundingMode.HALF_UP).doubleValue();
-                    splitMatch[i] = String.valueOf(d);
+                    splitMatch[i] = Util.customFormat("%.3f", d);
                 }
                 listForPattern.add(sbResult.append(splitMatch[0]).append(";").append(splitMatch[1]).toString());
                 sbResult = new StringBuilder();

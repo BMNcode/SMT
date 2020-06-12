@@ -10,7 +10,9 @@ import java.io.IOException;
 import java.util.List;
 
 import static org.bmn.util.OutputResult.outputCSV;
+import static org.bmn.util.OutputResult.writeWorkbook;
 import static org.bmn.util.PnPConvert.pnpList;
+import static org.bmn.util.AssignConvert.assignConvert;
 
 public class MainController {
     @FXML
@@ -30,6 +32,13 @@ public class MainController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    public void onClickConvertAssign() {
+        FileChooser fileChooser = new FileChooser();
+        File file = fileChooser.showOpenDialog(myStage);
+        writeWorkbook(assignConvert(file), "assignForPrint.xls", file.getParent());
     }
 
     //кнопка перенапрвляет в окно редактора сборки

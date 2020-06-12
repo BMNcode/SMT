@@ -46,6 +46,19 @@
          </LinearGradient>
       </textFill>
    </Button>
+   <Button fx:id="convertAssign" cancelButton="true" defaultButton="true" layoutX="153.0" layoutY="218.0" onMouseClicked="#onClickConvertAssign" prefHeight="45.0" prefWidth="280.0" text="convert assign" textAlignment="CENTER">
+      <font>
+         <Font size="21.0" />
+      </font>
+      <textFill>
+         <LinearGradient endX="1.0" endY="1.0" startX="0.3333333333333333">
+            <stops>
+               <Stop color="BLACK" />
+               <Stop color="WHITE" offset="1.0" />
+            </stops>
+         </LinearGradient>
+      </textFill>
+   </Button>
    <effect>
       <Blend />
    </effect>
