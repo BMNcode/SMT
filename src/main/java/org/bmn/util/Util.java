@@ -1,16 +1,13 @@
 package org.bmn.util;
 
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
-import org.apache.poi.ss.usermodel.BorderStyle;
-import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.*;
 
 import java.io.FileInputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class Util {
     //выравнивает столбцы пробелами
@@ -83,6 +80,7 @@ public class Util {
                     if (sb.length() <= 55) {
                         sb.append(ref[i]).append(",");
                     } else {
+                        i--;
                         parseBigReference.add(sb.deleteCharAt(sb.lastIndexOf(",")).toString());
                         sb = new StringBuilder();
                     }
@@ -107,8 +105,11 @@ public class Util {
     }
 
     public static String pattern(String... s) {
-        String pattern = "%s;%s;%s";
-        return String.format(pattern, s[0], s[1], s[2]);
+        StringBuilder sb = new StringBuilder();
+        for (String c : s) {
+            sb.append(c).append(";");
+        }
+        return sb.deleteCharAt(sb.lastIndexOf(";")).toString();
     }
 
     public static String isString(String s) {
@@ -136,22 +137,92 @@ public class Util {
     public static HSSFCellStyle createCellStyle(HSSFWorkbook book) {
         BorderStyle thin = BorderStyle.THIN;
         short black = IndexedColors.BLACK.getIndex();
-
         HSSFCellStyle style = book.createCellStyle();
-
-
-
         style.setBorderTop(thin);
         style.setBorderBottom(thin);
         style.setBorderRight(thin);
         style.setBorderLeft(thin);
-
         style.setTopBorderColor(black);
         style.setRightBorderColor(black);
         style.setBottomBorderColor(black);
         style.setLeftBorderColor(black);
-
         return style;
+    }
+
+    public static List<String> getDataAssignXlsInList(HSSFWorkbook wb, int indexSheet, String typeWB) {
+        int length = 0;
+        List<String> xlsList = new ArrayList<>();
+        HSSFSheet sheet = wb.getSheetAt(indexSheet);
+        Iterator<Row> rowIter = sheet.iterator();
+        while (rowIter.hasNext()) {
+            Row row = rowIter.next();
+            if (row.getCell(0) == null) {
+                break;
+            } else {
+                if (typeWB.equals("assign")) {
+                    length = 3;
+                } else if (typeWB.equals("spec")) {
+                    length = row.getLastCellNum();
+                }
+                String[] xlsMasStr = new String[length];
+                for (int i = 0; i < length; i++) {
+                    if (row.getCell(i) == null) {
+                        break;
+                    }
+                    CellType cellType = row.getCell(i).getCellTypeEnum();
+                    switch (cellType) {
+                        case STRING:
+                            xlsMasStr[i] = row.getCell(i).getStringCellValue();
+                            break;
+                        case NUMERIC:
+                            xlsMasStr[i] = String.valueOf(row.getCell(i).getNumericCellValue());
+                            break;
+                        case BLANK:
+                            xlsMasStr[i] = "";
+                    }
+                }
+                xlsList.add(Util.pattern(xlsMasStr));
+            }
+        }
+        return xlsList;
+    }
+
+    public static List<String> unionPartDataForVerify(List<String> assign, List<String> spec) {
+        StringBuilder sb = new StringBuilder();
+        List<String> resultVerify = new ArrayList<>();
+        boolean flag = false;
+        for (String sp : spec) {
+            for (String as : assign) {
+                String[] asMas = as.split(";");
+                if (sp.contains(asMas[0])) {
+                    sb.append(sp).append(";<----------->;").append(as);
+                    resultVerify.add(sb.toString());
+                    sb = new StringBuilder();
+                    flag = true;
+                    break;
+                }
+            }
+            if(!flag) resultVerify.add(sp);
+        }
+        return resultVerify;
+    }
+
+    public static HSSFWorkbook createWB(List<String> list) {
+        HSSFWorkbook resultBook = new HSSFWorkbook();
+        HSSFSheet resultSheet = resultBook.createSheet();
+        HSSFCellStyle style = Util.createCellStyle(resultBook);
+        Cell resultCell;
+        Row resultRow;
+        for (int i = 0; i < list.size(); i++) {
+            resultRow = resultSheet.createRow(i);
+            String[] rowSplit = list.get(i).split(";");
+            for (int j = 0; j < rowSplit.length; j++) {
+                resultCell = resultRow.createCell(j, CellType.STRING);
+                resultCell.setCellValue(rowSplit[j]);
+                resultCell.setCellStyle(style);
+            }
+        }
+        return resultBook;
     }
 
 

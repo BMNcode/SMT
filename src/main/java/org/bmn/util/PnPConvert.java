@@ -7,13 +7,15 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class PnPConvert {
     private static final String PATTERNForXY= "[xX]{1}(\\d)*[yY]{1}(\\d)*";
 
-    public static List<String> pnpList(Path path) throws IOException {
+    public static Set<String> pnpList(Path path) throws IOException {
         //читаем весь фаил по строкам
         List<String> listForFile = Files.readAllLines(path);
         StringBuilder sbResult = new StringBuilder();
@@ -35,6 +37,8 @@ public class PnPConvert {
                 sbResult = new StringBuilder();
             }
         }
-        return listForPattern;
+
+        Set<String> set = new TreeSet<String>(listForPattern);
+        return set;
     }
 }

@@ -6,13 +6,15 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class OutputResult {
 
-    public static void outputCSV(List<String> resultList, String nameFile, String path) {
+    public static void outputCSV(Set<String> resultList, String nameFile, String path) {
         String csvName = nameFile + ".csv";
-        List<String> result = Util.trimAlign(resultList, 10);
+        List<String> result = Util.trimAlign(new ArrayList<>(resultList), 10);
         try (FileWriter writer = new FileWriter(path + "\\" + csvName)) {
             for (String s : result) {
                 writer.write(s);

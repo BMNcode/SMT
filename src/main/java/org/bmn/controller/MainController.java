@@ -1,33 +1,26 @@
 package org.bmn.controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
+import java.util.Set;
 
+import static org.bmn.util.AssignConvert.assignConvert;
 import static org.bmn.util.OutputResult.outputCSV;
 import static org.bmn.util.OutputResult.writeWorkbook;
 import static org.bmn.util.PnPConvert.pnpList;
-import static org.bmn.util.AssignConvert.assignConvert;
 
 public class MainController {
-    @FXML
-    private Button convertPnP;
-    @FXML
-    private Button redirectSB;
-    private Stage myStage;
-
     //кнопка выбора файла для преобразования PnP файла
     @FXML
     public void onClickConvertPnP() {
         FileChooser fileChooser = new FileChooser();
-        File file = fileChooser.showOpenDialog(myStage);
+        File file = fileChooser.showOpenDialog(new Stage());
         try {
-            List<String> result = pnpList(file.toPath());
+            Set<String> result = pnpList(file.toPath());
             outputCSV(result, "centroid", file.getParent());
         } catch (IOException e) {
             e.printStackTrace();
@@ -37,7 +30,7 @@ public class MainController {
     @FXML
     public void onClickConvertAssign() {
         FileChooser fileChooser = new FileChooser();
-        File file = fileChooser.showOpenDialog(myStage);
+        File file = fileChooser.showOpenDialog(new Stage());
         writeWorkbook(assignConvert(file), "assignForPrint.xls", file.getParent());
     }
 
