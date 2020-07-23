@@ -13,9 +13,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class PnPConvert {
-    private static final String PATTERNForXY= "[xX]{1}(\\d)*[yY]{1}(\\d)*";
+    private static final String PATTERNForXY = "[xX]{1}[-]?(\\d)*[yY]{1}[-]?(\\d)*";
 
-    public static Set<String> pnpList(Path path) throws IOException {
+    public static Set<String> pnpListForDRL(Path path) throws IOException {
         //читаем весь фаил по строкам
         List<String> listForFile = Files.readAllLines(path);
         StringBuilder sbResult = new StringBuilder();
@@ -23,13 +23,13 @@ public class PnPConvert {
         List<String> listForPattern = new ArrayList<>();
         Pattern patternX = Pattern.compile(PATTERNForXY);
         //пробегаемся по исходным данным и преобразуем их
-        for (String s: listForFile) {
+        for (String s : listForFile) {
             Matcher matcher = patternX.matcher(s);
             while (matcher.find()) {
                 String mathReplace = matcher.group().replace("X", "").replace("Y", " ");
                 String[] splitMatch = mathReplace.split(" ");
-                for(int i = 0; i < splitMatch.length; i++) {
-                    double d = BigDecimal.valueOf((Double.parseDouble(splitMatch[i]))/10000)
+                for (int i = 0; i < splitMatch.length; i++) {
+                    double d = BigDecimal.valueOf((Double.parseDouble(splitMatch[i])) / 10000)
                             .setScale(3, RoundingMode.HALF_UP).doubleValue();
                     splitMatch[i] = Util.customFormat("%.3f", d);
                 }
@@ -41,4 +41,9 @@ public class PnPConvert {
         Set<String> set = new TreeSet<String>(listForPattern);
         return set;
     }
+
+//    public static List<String> pnpListForINSorPNP(Path path) throws IOException{
+//        List<String> listForFile = Files.readAllLines(path);
+//
+//    }
 }
