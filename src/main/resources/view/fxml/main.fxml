@@ -6,8 +6,8 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="585.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.bmn.controller.MainController">
-     <Button fx:id="convertPnP" cancelButton="true" defaultButton="true" layoutX="153.0" layoutY="33.0" onMouseClicked="#onClickConvertPnP" prefHeight="45.0" prefWidth="280.0" text="convert pnp" textAlignment="CENTER">
+<AnchorPane prefHeight="421.0" prefWidth="585.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.bmn.controller.MainController">
+   <Button fx:id="assign" cancelButton="true" defaultButton="true" layoutX="38.0" layoutY="100.0" onAction="#onClickVerifyAssign" prefHeight="45.0" prefWidth="280.0" text="проверить assign и спеку" textAlignment="CENTER">
       <font>
          <Font size="21.0" />
       </font>
@@ -20,7 +20,7 @@
          </LinearGradient>
       </textFill>
    </Button>
-   <Button fx:id="assign" cancelButton="true" defaultButton="true" layoutX="153.0" layoutY="95.0" onAction="#onClickVerifyAssign" prefHeight="45.0" prefWidth="280.0" text="проверить assign и спеку" textAlignment="CENTER">
+   <Button fx:id="redirectSB" cancelButton="true" defaultButton="true" layoutX="38.0" layoutY="169.0" onAction="#onClickRedirectSB" prefHeight="45.0" prefWidth="280.0" text="создать сборку" textAlignment="CENTER">
       <font>
          <Font size="21.0" />
       </font>
@@ -33,7 +33,7 @@
          </LinearGradient>
       </textFill>
    </Button>
-   <Button fx:id="redirectSB" cancelButton="true" defaultButton="true" layoutX="153.0" layoutY="155.0" onAction="#onClickRedirectSB" prefHeight="45.0" prefWidth="280.0" text="создать сборку" textAlignment="CENTER">
+   <Button fx:id="convertAssign" cancelButton="true" defaultButton="true" layoutX="38.0" layoutY="241.0" onMouseClicked="#onClickConvertAssign" prefHeight="45.0" prefWidth="280.0" text="convert assign" textAlignment="CENTER">
       <font>
          <Font size="21.0" />
       </font>
@@ -46,7 +46,7 @@
          </LinearGradient>
       </textFill>
    </Button>
-   <Button fx:id="convertAssign" cancelButton="true" defaultButton="true" layoutX="153.0" layoutY="218.0" onMouseClicked="#onClickConvertAssign" prefHeight="45.0" prefWidth="280.0" text="convert assign" textAlignment="CENTER">
+     <Button fx:id="convertPnP" cancelButton="true" defaultButton="true" layoutX="38.0" layoutY="29.0" onAction="#onClickConvertPnP" prefHeight="45.0" prefWidth="280.0" text="convert pnp" textAlignment="CENTER">
       <font>
          <Font size="21.0" />
       </font>

@@ -81,6 +81,20 @@ public class Component {
         this.rotation = rotation;
     }
 
+    public void flipPositive90(Component component) {
+        //против часовой стрелки
+        double temp = component.getLocationX();
+        component.setLocationX(-component.getLocationY());
+        component.setLocationY(temp);
+    }
+
+    public void flipNegative90(Component component) {
+        //по часовой стрелке
+        double temp = component.getLocationX();
+        component.setLocationX(component.getLocationY());
+        component.setLocationY(-temp);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -10,10 +10,10 @@ import static org.bmn.util.AssignConvert.assignConvert;
 import static org.bmn.util.OutputResult.writeWorkbook;
 
 public class MainController {
-    //кнопка выбора файла для преобразования PnP файла
+
     @FXML
     public void onClickConvertPnP() {
-        new ComponentController().onClickConvertPnP();
+        new ComponentController().convertPnPEditor();
     }
 
     @FXML
