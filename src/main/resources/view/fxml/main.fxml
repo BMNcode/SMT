@@ -6,7 +6,7 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="421.0" prefWidth="585.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.bmn.controller.MainController">
+<AnchorPane prefHeight="421.0" prefWidth="582.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.bmn.controller.MainController">
    <Button fx:id="assign" cancelButton="true" defaultButton="true" layoutX="38.0" layoutY="100.0" onAction="#onClickVerifyAssign" prefHeight="45.0" prefWidth="280.0" text="проверить assign и спеку" textAlignment="CENTER">
       <font>
          <Font size="21.0" />

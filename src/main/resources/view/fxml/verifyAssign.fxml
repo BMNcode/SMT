@@ -3,10 +3,24 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="237.0" prefWidth="288.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.bmn.controller.VerifyAssignController">
+<AnchorPane prefHeight="294.0" prefWidth="624.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.bmn.controller.VerifyAssignController">
    <children>
-      <Button layoutX="67.0" layoutY="73.0" mnemonicParsing="false" onAction="#assignView" prefHeight="32.0" prefWidth="154.0" text="assign" AnchorPane.topAnchor="73.0" />
-      <Button layoutX="67.0" layoutY="20.0" mnemonicParsing="false" onAction="#spekaView" prefHeight="32.0" prefWidth="154.0" text="спека" AnchorPane.topAnchor="20.0" />
-      <Button layoutX="67.0" layoutY="137.0" mnemonicParsing="false" onAction="#createVerify" prefHeight="32.0" prefWidth="154.0" text="поехали!" />
+      <Button layoutX="8.0" layoutY="123.0" mnemonicParsing="false" onAction="#assignView" prefHeight="32.0" prefWidth="154.0" text="assign" AnchorPane.topAnchor="123.0" />
+      <Button layoutX="8.0" layoutY="22.0" mnemonicParsing="false" onAction="#spekaView" prefHeight="32.0" prefWidth="154.0" text="спека" AnchorPane.topAnchor="22.0" />
+      <Button layoutX="235.0" layoutY="229.0" mnemonicParsing="false" onAction="#createVerify" prefHeight="32.0" prefWidth="154.0" text="поехали!" />
+      <TextField fx:id="refSpecColumn" alignment="CENTER" layoutX="286.0" layoutY="26.0" prefHeight="25.0" prefWidth="47.0" />
+      <TextField fx:id="partSpecColumn" alignment="CENTER" layoutX="446.0" layoutY="26.0" prefHeight="25.0" prefWidth="47.0" />
+      <Label layoutX="194.0" layoutY="22.0" prefHeight="32.0" prefWidth="79.0" text="# Ref. column" />
+      <Label layoutX="348.0" layoutY="22.0" prefHeight="32.0" prefWidth="79.0" text="# Part. column" />
+      <Label layoutX="194.0" layoutY="123.0" prefHeight="32.0" prefWidth="79.0" text="# Ref. column" />
+      <TextField fx:id="assignRefColumn" alignment="CENTER" layoutX="286.0" layoutY="127.0" prefHeight="25.0" prefWidth="47.0" text="1" />
+      <Label layoutX="348.0" layoutY="124.0" prefHeight="32.0" prefWidth="79.0" text="# Part. column" />
+      <TextField fx:id="assignPartColumn" alignment="CENTER" layoutX="446.0" layoutY="127.0" prefHeight="25.0" prefWidth="47.0" text="2" />
+      <TextField fx:id="specPath" layoutX="8.0" layoutY="71.0" prefHeight="32.0" prefWidth="604.0" />
+      <TextField fx:id="assignPath" layoutX="7.0" layoutY="170.0" prefHeight="32.0" prefWidth="604.0" />
+      <Label layoutX="509.0" layoutY="23.0" prefHeight="32.0" prefWidth="47.0" text="# sheet" />
+      <TextField fx:id="specSheet" alignment="CENTER" layoutX="565.0" layoutY="26.0" prefHeight="25.0" prefWidth="47.0" text="1" />
+      <Label layoutX="509.0" layoutY="124.0" prefHeight="32.0" prefWidth="47.0" text="# sheet" />
+      <TextField fx:id="assignSheet" alignment="CENTER" layoutX="565.0" layoutY="128.0" prefHeight="25.0" prefWidth="47.0" text="1" />
    </children>
 </AnchorPane>

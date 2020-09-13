@@ -4,16 +4,30 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.bmn.model.Component;
+import org.bmn.service.ComponentService;
+import org.bmn.util.Util;
 
 import java.io.File;
+import java.util.List;
 
 import static org.bmn.util.OutputResult.writeWorkbook;
-import static org.bmn.util.VerifyAssign.verifyAssign;
 
 public class VerifyAssignController {
+
+    public TextField specPath;
+    public TextField assignPath;
+    public TextField refSpecColumn;
+    public TextField partSpecColumn;
+    public TextField assignRefColumn;
+    public TextField assignPartColumn;
+    public TextField specSheet;
+    public TextField assignSheet;
+
 
     private File assignFile;
     private File specFile;
@@ -35,19 +49,38 @@ public class VerifyAssignController {
     }
 
     @FXML
-    public void assignView() {
-        FileChooser fileChooser = new FileChooser();
-        assignFile = fileChooser.showOpenDialog(stage);
-    }
-
-    @FXML
     public void spekaView() {
         FileChooser fileChooser = new FileChooser();
         specFile = fileChooser.showOpenDialog(stage);
+        specPath.appendText(specFile.getAbsolutePath());
     }
 
     @FXML
+    public void assignView() {
+        FileChooser fileChooser = new FileChooser();
+        assignFile = fileChooser.showOpenDialog(stage);
+        assignPath.appendText(assignFile.getAbsolutePath());
+    }
+
+    //сформировать фаил xls из двух исходных
+    @FXML
     public void createVerify() {
-        writeWorkbook(verifyAssign(assignFile, specFile, 0), "verifyAssign.xls", assignFile.getParent());
+        try {
+            List<Component> specComponentsList = new ComponentService().findAllinXLS(specFile.toPath(),
+                    Integer.parseInt(specSheet.getText()), Integer.parseInt(refSpecColumn.getText()),
+                    Integer.parseInt(partSpecColumn.getText()), ",");
+
+            List<Component> assignComponentsList = new ComponentService().findAllinXLS(assignFile.toPath(),
+                    Integer.parseInt(assignSheet.getText()), Integer.parseInt(assignRefColumn.getText()),
+                    Integer.parseInt(assignPartColumn.getText()), ",");
+
+            writeWorkbook(Util.createWB(Util.unionPartDataForVerifyComponents(assignComponentsList, specComponentsList)),
+                    "verifyAssign.xls", assignFile.getParent());
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//        writeWorkbook(verifyAssign(assignFile, specFile, 0), "verifyAssign.xls", assignFile.getParent());
     }
 }

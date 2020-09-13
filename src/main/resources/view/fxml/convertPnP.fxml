@@ -3,16 +3,19 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="310.0" prefWidth="581.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.bmn.controller.ComponentController">
+<AnchorPane prefHeight="310.0" prefWidth="669.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.bmn.controller.ComponentController">
    <children>
       <Button layoutX="48.0" layoutY="124.0" mnemonicParsing="false" onAction="#convertGerberPnP" prefHeight="50.0" prefWidth="196.0" text="convert pnp Gerber" />
       <Button layoutX="48.0" layoutY="45.0" mnemonicParsing="false" onAction="#convertAltiumPnP" prefHeight="50.0" prefWidth="196.0" text="convert pnp Altium" />
       <Button layoutX="48.0" layoutY="200.0" mnemonicParsing="false" onAction="#convertPCADPnP" prefHeight="50.0" prefWidth="196.0" text="convert pnp P-CAD" />
-      <RadioButton fx:id="turnLeft" layoutX="455.0" layoutY="62.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="87.0" text="turn left">
+      <RadioButton fx:id="turnLeft" layoutX="568.0" layoutY="37.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="87.0" text="turn left">
          <toggleGroup>
             <ToggleGroup fx:id="turnGroup" />
          </toggleGroup>
       </RadioButton>
-      <RadioButton fx:id="turnRight" layoutX="455.0" layoutY="95.0" mnemonicParsing="false" text="turn right" toggleGroup="$turnGroup" />
+      <RadioButton fx:id="turnRight" layoutX="568.0" layoutY="63.0" mnemonicParsing="false" text="turn right" toggleGroup="$turnGroup" />
+      <Label layoutX="275.0" layoutY="62.0" prefHeight="17.0" prefWidth="280.0" text=".txt (Designator, Mid X, Mid Y, TB, Rotation)" />
+      <Label layoutX="275.0" layoutY="141.0" prefHeight="17.0" prefWidth="280.0" text=".drl" />
+      <Label layoutX="275.0" layoutY="217.0" prefHeight="17.0" prefWidth="280.0" text=".pnp (RefDes, Layer, LocatoinX, LocationY, Rotation)" />
    </children>
 </AnchorPane>

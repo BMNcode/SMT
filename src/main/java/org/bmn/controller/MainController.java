@@ -11,6 +11,7 @@ import static org.bmn.util.OutputResult.writeWorkbook;
 
 public class MainController {
 
+
     @FXML
     public void onClickConvertPnP() {
         new ComponentController().convertPnPEditor();
@@ -26,7 +27,7 @@ public class MainController {
     //кнопка перенапрвляет в окно редактора сборки
     @FXML
     public void onClickRedirectSB() {
-        new CreateSBController().imageEditor();
+       new CreateSBController().imageEditor();
     }
 
     //кнопка перенаправляет в окно сверки assign и спеки

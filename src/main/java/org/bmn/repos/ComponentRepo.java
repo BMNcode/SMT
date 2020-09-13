@@ -8,8 +8,9 @@ import java.util.List;
 
 public interface ComponentRepo {
 
-    Component getComponent(String src);
     List<Component> findAllinGerber(Path path, String pattern) throws IOException;
     List<Component> findAllinPCAD(Path path) throws IOException;
     List<Component> findAllinAD(Path path) throws IOException;
+    List<Component> findAllinXLS(Path path, int numSheet, int numRefColumn,
+                                 int numPartColumn, String delimiter) throws IOException;
 }

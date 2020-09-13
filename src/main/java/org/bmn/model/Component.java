@@ -1,5 +1,7 @@
 package org.bmn.model;
 
+import javafx.scene.shape.Shape;
+
 import java.util.Objects;
 
 public class Component {
@@ -9,12 +11,9 @@ public class Component {
     private double locationY;
     private String side;
     private double rotation;
+    private Shape shape;
 
     public Component() {
-    }
-
-    public Component(String name) {
-        this.name = name;
     }
 
     public Component(double locationX, double locationY) {
@@ -22,7 +21,9 @@ public class Component {
         this.locationY = locationY;
     }
 
-    public Component(Double aDouble) {
+    public Component(String name, String reference) {
+        this.name = name;
+        this.reference = reference;
     }
 
     public Component(String reference, double locationX, double locationY, String side, double rotation) {
@@ -81,6 +82,14 @@ public class Component {
         this.rotation = rotation;
     }
 
+    public Shape getShape() {
+        return shape;
+    }
+
+    public void setShape(Shape shape) {
+        this.shape = shape;
+    }
+
     public void flipPositive90(Component component) {
         //против часовой стрелки
         double temp = component.getLocationX();
@@ -100,12 +109,21 @@ public class Component {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Component component = (Component) o;
+        return Objects.equals(reference, component.reference);
+    }
+
+    public boolean equalsName(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Component component = (Component) o;
         return Objects.equals(name, component.name);
     }
 
+
+
     @Override
     public int hashCode() {
-        return Objects.hash(name);
+        return Objects.hash(reference);
     }
 
     @Override

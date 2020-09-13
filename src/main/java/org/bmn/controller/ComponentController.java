@@ -51,17 +51,8 @@ public class ComponentController {
         try {
             List<Component> componentsAD = new ComponentService().findAllinAD(file.toPath());
 
-            if (turnLeft.isSelected()) {
-                componentsAD.forEach(s -> {
-                    s.flipPositive90(s);
-                });
-            }
+            turnPosOrNegforComponent(turnLeft.isSelected(), turnRight.isSelected(), componentsAD);
 
-            if (turnRight.isSelected()) {
-                componentsAD.forEach(s -> {
-                    s.flipNegative90(s);
-                });
-            }
             Set<String> resultAD = componentsAD.stream()
                     .map(Component::customToString)
                     .collect(Collectors.toSet());
@@ -78,17 +69,8 @@ public class ComponentController {
         try {
             List<Component> componentsDrl = new ComponentService().findAllinGerber(file.toPath(), pattern);
 
-            if (turnLeft.isSelected()) {
-                componentsDrl.forEach(s -> {
-                    s.flipPositive90(s);
-                });
-            }
+            turnPosOrNegforComponent(turnLeft.isSelected(), turnRight.isSelected(), componentsDrl);
 
-            if (turnRight.isSelected()) {
-                componentsDrl.forEach(s -> {
-                    s.flipNegative90(s);
-                });
-            }
             Set<String> resultDrl = componentsDrl.stream()
                     .map(s -> Util.formatDouble(s.getLocationX()) + "       " + Util.formatDouble(s.getLocationY()))
                     .collect(Collectors.toSet());
@@ -106,17 +88,7 @@ public class ComponentController {
         try {
             List<Component> componentsPnp = new ComponentService().findAllinPCAD(file.toPath());
 
-            if (turnLeft.isSelected()) {
-                componentsPnp.forEach(s -> {
-                    s.flipPositive90(s);
-                });
-            }
-
-            if (turnRight.isSelected()) {
-                componentsPnp.forEach(s -> {
-                    s.flipNegative90(s);
-                });
-            }
+            turnPosOrNegforComponent(turnLeft.isSelected(), turnRight.isSelected(), componentsPnp);
 
             Set<String> resultPnp = componentsPnp.stream()
                     .map(Component::customToString)
@@ -126,4 +98,19 @@ public class ComponentController {
             e.printStackTrace();
         }
     }
+
+    public List<Component> turnPosOrNegforComponent(boolean left, boolean right, List<Component> src) {
+        if(left) {
+            src.forEach(s -> {
+                s.flipPositive90(s);
+            });
+        } else if (right) {
+            src.forEach(s -> {
+                s.flipNegative90(s);
+            });
+        }
+        return src;
+    }
+
+
 }

@@ -6,6 +6,7 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.ss.usermodel.*;
+import org.bmn.model.Component;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -275,6 +276,26 @@ public class Util {
         return resultVerify;
     }
 
+    public static List<String> unionPartDataForVerifyComponents(List<Component> assign, List<Component> spec) {
+        List<String> result = new ArrayList<>();
+        StringBuilder pattern = new StringBuilder();
+        for(Component sp : spec) {
+            for (Component asgn : assign) {
+                if (sp.equals(asgn)) {
+                    pattern.append(sp.getReference()).append("      ").append(sp.getName()).append("  <----------->  ")
+                            .append(asgn.getReference()).append("      ").append(asgn.getName());
+                }
+            }
+            if(pattern.toString().isEmpty()) {
+                pattern = new StringBuilder();
+                pattern.append(sp.getReference()).append("      ").append(sp.getName()).append("  <<<не найден");
+            }
+            result.add(pattern.toString());
+            pattern = new StringBuilder();
+        }
+        return result;
+    }
+
     public static HSSFWorkbook createWB(List<String> list) {
         HSSFWorkbook resultBook = new HSSFWorkbook();
         HSSFSheet resultSheet = resultBook.createSheet();
@@ -323,7 +344,7 @@ public class Util {
     }
 
     /*
-    разбивает, а после перечисляет референсы
+    разбивает, а после перечисляет референсы+
     */
     public static List<String> parseForReference(String str, String delimiter) {
         List<String> result = new ArrayList<>();
