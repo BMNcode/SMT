@@ -13,4 +13,8 @@ public interface ComponentRepo {
     List<Component> findAllinAD(Path path) throws IOException;
     List<Component> findAllinXLS(Path path, int numSheet, int numRefColumn,
                                  int numPartColumn, String delimiter) throws IOException;
+
+    List<Component> findAllinXLS(Path path, int numSheet, int numRefColumn,
+                                 int numPartColumn, int xCoordinateColumn,
+                                 int yCoordinateColumn, int rotateColumn, String delimiter) throws IOException;
 }

@@ -34,6 +34,14 @@ public class Component {
         this.rotation = rotation;
     }
 
+    public Component(String name, String reference, double locationX, double locationY, double rotation) {
+        this.name = name;
+        this.reference = reference;
+        this.locationX = locationX;
+        this.locationY = locationY;
+        this.rotation = rotation;
+    }
+
     public String getName() {
         return name;
     }

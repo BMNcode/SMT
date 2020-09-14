@@ -1,15 +1,18 @@
 package org.bmn.controller;
 
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -19,20 +22,30 @@ import javafx.stage.Stage;
 import org.bmn.model.Component;
 import org.bmn.service.ComponentService;
 
+import javax.imageio.ImageIO;
+import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.List;
 
 public class CreateSBController {
     public StackPane stackPane;
     public TextField panelX;
     public TextField panelY;
+    public Button save;
     @FXML
     private ScrollPane scroll;
     Image image;
     private double zeroPointX;
     private double zeroPointY;
-
+    private double indexScalePanel;
+    private double panelSizeX;
+    private double panelSizeY;
+    private double panelSizeScaleX;
+    private double panelSizeScaleY;
+    private double imageX;
+    private double imageY;
 
 
 
@@ -62,7 +75,7 @@ public class CreateSBController {
 //            image = new Image(fileInputStream);
 //            ImageView imageView = new ImageView(image);
 //            stackPane.getChildren().add(imageView);
-            FileInputStream fileInputStream = new FileInputStream("E:\\work\\test_razmetka_5000.png");
+            FileInputStream fileInputStream = new FileInputStream("E:\\work\\SMT\\src\\main\\resources\\templateCanvas\\A4_550px_gorizont.png");
             image = new Image(fileInputStream);
             ImageView imageView = new ImageView(image);
             stackPane.getChildren().add(imageView);
@@ -77,20 +90,22 @@ public class CreateSBController {
         FileChooser fileChooser = new FileChooser();
         File file = fileChooser.showOpenDialog(new Stage());
         try {
-            List<Component> listComponents = new ComponentService().findAllinGerber(file.toPath(), pattern);
+            List<Component> listComponents = new ComponentService().findAllinXLS(file.toPath(), 1, 2, 6,
+                   3, 4, 5, "," );
 
             for (Component ch : listComponents) {
-                double x = ch.getLocationX()/1000;
-                double y = ch.getLocationY()/1000;
-                Rectangle rectangle = new Rectangle(20, 10);
+                double x = ch.getLocationX();
+                double y = ch.getLocationY();
+                Rectangle rectangle = new Rectangle(100, 50);
                 rectangle.setStroke(Color.BLACK);
-                rectangle.setStrokeWidth(2.0);
+                rectangle.setStrokeWidth(10);
                 rectangle.setFill(Color.WHITE);
-                //rectangle.setRotate(45.0);
+                rectangle.setRotate(ch.getRotation());
                 ch.setShape(rectangle);
                 stackPane.getChildren().add(rectangle);
                 StackPane.setAlignment(rectangle, Pos.BOTTOM_LEFT);
-                StackPane.setMargin(rectangle, new Insets(0, 0, y + zeroPointY, x + zeroPointX));
+                StackPane.setMargin(rectangle, new Insets(0, 0, zeroPointY + (y / panelSizeY) * panelSizeScaleY,
+                                                                            zeroPointX + (x / panelSizeX) * panelSizeScaleX));
 
                 scroll.setContent(stackPane);
             }
@@ -102,8 +117,8 @@ public class CreateSBController {
 
     public void drawPanel() {
         //чтение вводимых размеров
-        double panelSizeX = Double.parseDouble(panelX.getText());
-        double panelSizeY = Double.parseDouble(panelY.getText());
+        panelSizeX = Double.parseDouble(panelX.getText());
+        panelSizeY = Double.parseDouble(panelY.getText());
 
         //определение середины холста
         double imageMidX = image.getWidth()/2.0;
@@ -111,14 +126,14 @@ public class CreateSBController {
 
 
         //определение размеров исходного холста
-        double imageX = image.getWidth();
-        double imageY = image.getHeight();
+        imageX = image.getWidth();
+        imageY = image.getHeight();
 
         //маштабирование границ панели
         //коэффициент маштабирования
-        double indexScalePanel = panelSizeX >= panelSizeY ? panelSizeY/panelSizeX : panelSizeX/panelSizeY;
-        double panelSizeScaleX = panelSizeX >= panelSizeY ? imageX : indexScalePanel * imageX;
-        double panelSizeScaleY = panelSizeY >= panelSizeX ? imageY : indexScalePanel * imageY;
+        indexScalePanel = panelSizeX >= panelSizeY ? panelSizeY/panelSizeX : panelSizeX/panelSizeY;
+        panelSizeScaleX = panelSizeX >= panelSizeY ? imageX : indexScalePanel * imageX;
+        panelSizeScaleY = panelSizeY >= panelSizeX ? imageY : indexScalePanel * imageY;
 
         //нахождение точки отсчета панели
         zeroPointX = imageMidX - panelSizeScaleX/2;
@@ -128,7 +143,7 @@ public class CreateSBController {
         //создание границ прямоугольной панели
         Rectangle panelOutline = new Rectangle(panelSizeScaleX, panelSizeScaleY);
         panelOutline.setStroke(Color.BLACK);
-        panelOutline.setStrokeWidth(4);
+        panelOutline.setStrokeWidth(12);
         panelOutline.setFill(Color.WHITE);
 
         //добавление панели на стакпэйн
@@ -137,4 +152,27 @@ public class CreateSBController {
         StackPane.setMargin(panelOutline, new Insets(0, 0, imageMidY - panelSizeScaleY/2, imageMidX - panelSizeScaleX/2));
         scroll.setContent(stackPane);
     }
+
+    public void captureAndSaveDisplay(){
+        FileChooser fileChooser = new FileChooser();
+
+        //Set extension filter
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("png files (*.png)", "*.png"));
+
+        //Prompt user to select a file
+        File file = fileChooser.showSaveDialog(null);
+
+        if(file != null){
+            try {
+                //Pad the capture area
+                WritableImage writableImage = new WritableImage((int)imageX + 5, (int)imageY + 5);
+                stackPane.snapshot(null, writableImage);
+                RenderedImage renderedImage = SwingFXUtils.fromFXImage(writableImage, null);
+                //Write the snapshot to the chosen file
+                ImageIO.write(renderedImage, "png", file);
+            } catch (IOException ex) { ex.printStackTrace(); }
+        }
+    }
+
+
 }

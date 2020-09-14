@@ -156,6 +156,42 @@ public class ComponentService implements ComponentRepo {
         return components;
     }
 
+    @Override
+    public List<Component> findAllinXLS(Path path, int numSheet, int numRefColumn,
+                                        int numPartColumn, int xCoordinateColumn,
+                                        int yCoordinateColumn, int rotateColumn, String delimiter) throws IOException{
+        //read xls source file
+        HSSFWorkbook workbook = new HSSFWorkbook(new POIFSFileSystem(new FileInputStream(path.toFile())));
+        //create container for components
+        List<Component> components = new ArrayList<>();
+        //read workbook numSheet
+        HSSFSheet sheet = workbook.getSheetAt(numSheet - 1);
+        Iterator<Row> rowIterator = sheet.rowIterator();
+        while (rowIterator.hasNext()) {
+            Row row = rowIterator.next();
+            if (row.getCell(numRefColumn - 1) == null) {
+                break;
+            } else {
+                CellType cellType = row.getCell(numPartColumn - 1).getCellTypeEnum();
+                String partNumber = "";
+                switch (cellType) {
+                    case STRING:
+                        partNumber = row.getCell(numPartColumn - 1).getStringCellValue();
+                        break;
+                    case NUMERIC:
+                        partNumber = String.valueOf(row.getCell(numPartColumn - 1).getNumericCellValue());
+                        break;
+                }
+                String ref = row.getCell(numRefColumn - 1).getStringCellValue();
+                double locX = row.getCell(xCoordinateColumn - 1).getNumericCellValue();
+                double locY = row.getCell(yCoordinateColumn - 1).getNumericCellValue();
+                double angle = row.getCell(rotateColumn - 1).getNumericCellValue();
+                components.add(new Component(partNumber, ref, locX, locY, angle));
+            }
+        }
+        return components;
+    }
+
     public static int getDigit(String s) {
         char[] src = s.toCharArray();
         StringBuilder sb = new StringBuilder();
