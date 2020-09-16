@@ -9,14 +9,13 @@ import org.bmn.model.Component;
 import org.bmn.repos.ComponentRepo;
 import org.bmn.util.Util;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ComponentService implements ComponentRepo {
@@ -89,8 +88,8 @@ public class ComponentService implements ComponentRepo {
                                 : Double.parseDouble(q[midX]);
                         double yMid = q[midY].contains("mm") ? Double.parseDouble(q[midY].replace("mm", ""))
                                 : Double.parseDouble(q[midY]);
-                                result.add(new Component((q[designator]), xMid,
-                                        yMid, q[tb], Double.parseDouble(q[rotation])));
+                        result.add(new Component((q[designator]), xMid,
+                                yMid, q[tb], Double.parseDouble(q[rotation])));
                     }
                 });
         return result;
@@ -214,46 +213,30 @@ public class ComponentService implements ComponentRepo {
         return sb.toString();
     }
 
-//    public Map<String, String> toCollectPartName(List<Component> componentsList) {
-//
-//        Map<String, String> result = new HashMap<>();
-//        Set<String> nameList = componentsList.stream()
-//                .map(Component::getName)
-//                .collect(Collectors.toSet());
-//
-//        String partName = new String();
-//        List<String> refListForJoin = new ArrayList<>();
-//
-//        Iterator iterator = nameList.iterator();
-//
-//        while (iterator.hasNext()) {
-//            partName = (String) iterator.next();
-//            for (Component component : componentsList) {
-//
-//                if (component.equalsName(iterator.next())) {
-//                    refListForJoin.add(component.getReference());
-//                }
-//            }
-//            String joined = String.join("," , refListForJoin);
-//            result.put(partName.toString(), joined);
-//
-//        }
-//
-//        return result;
-//    }
+    public Map<String, List<Component>> groupReferenceByName (List<Component> componentsList) {
+
+        Map<String, List<Component>> groupName = componentsList.stream()
+                .collect(Collectors.groupingBy(Component::getName));
+
+        return groupName;
+    }
 
 //    public static void main(String[] args) throws IOException {
-//        File file = new File("E:\\temp\\BOM-SI-LPC-SBC-LCD56_v213d4.xls");
+//        File file = new File("D:\\!WORK\\#7924.01.xls");
 //        List<Component> sdc;
 //        ComponentService componentService = new ComponentService();
 //        sdc = componentService.findAllinXLS(file.toPath(), 1, 1, 2, ",");
 //
-//        Map<String, String> map = new HashMap<>();
-//        map = componentService.toCollectPartName(sdc);
+//        Map<String, List<Component>> map = new HashMap<>();
+//        map = componentService.groupReferenceByName(sdc);
 //
-//        for(Map.Entry<String, String> entry: map.entrySet()) {
-//            System.out.println(entry.getKey() + " - " + entry.getValue());
+//        for(Map.Entry<String, List<Component>> entry: map.entrySet()) {
+//            System.out.println(entry.getKey());
+//            for (Component component : entry.getValue()) {
+//                System.out.println(component.getReference());
+//            }
 //        }
+//        System.out.println();
 //    }
 
 

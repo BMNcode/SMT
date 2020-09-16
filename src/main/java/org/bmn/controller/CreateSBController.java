@@ -20,6 +20,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.bmn.model.Component;
+import org.bmn.model.ComponentShape;
 import org.bmn.service.ComponentService;
 
 import javax.imageio.ImageIO;
@@ -75,7 +76,7 @@ public class CreateSBController {
 //            image = new Image(fileInputStream);
 //            ImageView imageView = new ImageView(image);
 //            stackPane.getChildren().add(imageView);
-            FileInputStream fileInputStream = new FileInputStream("E:\\work\\SMT\\src\\main\\resources\\templateCanvas\\A4_550px_gorizont.png");
+            FileInputStream fileInputStream = new FileInputStream("D:\\Java\\JavaProject\\SMT\\src\\main\\resources\\templateCanvas\\A3_550px_vert.png");
             image = new Image(fileInputStream);
             ImageView imageView = new ImageView(image);
             stackPane.getChildren().add(imageView);
@@ -91,21 +92,21 @@ public class CreateSBController {
         File file = fileChooser.showOpenDialog(new Stage());
         try {
             List<Component> listComponents = new ComponentService().findAllinXLS(file.toPath(), 1, 2, 6,
-                   3, 4, 5, "," );
+                    3, 4, 5, "," );
 
             for (Component ch : listComponents) {
                 double x = ch.getLocationX();
                 double y = ch.getLocationY();
-                Rectangle rectangle = new Rectangle(100, 50);
+                Rectangle rectangle = new Rectangle(50, 25);
                 rectangle.setStroke(Color.BLACK);
-                rectangle.setStrokeWidth(10);
+                rectangle.setStrokeWidth(4);
                 rectangle.setFill(Color.WHITE);
                 rectangle.setRotate(ch.getRotation());
-                ch.setShape(rectangle);
+                ch.setComponentShape(new ComponentShape("Rectangle", rectangle));
                 stackPane.getChildren().add(rectangle);
                 StackPane.setAlignment(rectangle, Pos.BOTTOM_LEFT);
                 StackPane.setMargin(rectangle, new Insets(0, 0, zeroPointY + (y / panelSizeY) * panelSizeScaleY,
-                                                                            zeroPointX + (x / panelSizeX) * panelSizeScaleX));
+                        zeroPointX + (x / panelSizeX) * panelSizeScaleX));
 
                 scroll.setContent(stackPane);
             }

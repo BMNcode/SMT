@@ -11,7 +11,7 @@ public class Component {
     private double locationY;
     private String side;
     private double rotation;
-    private Shape shape;
+    private ComponentShape componentShape;
 
     public Component() {
     }
@@ -90,12 +90,12 @@ public class Component {
         this.rotation = rotation;
     }
 
-    public Shape getShape() {
-        return shape;
+    public ComponentShape getComponentShape() {
+        return componentShape;
     }
 
-    public void setShape(Shape shape) {
-        this.shape = shape;
+    public void setComponentShape(ComponentShape componentShape) {
+        this.componentShape = componentShape;
     }
 
     public void flipPositive90(Component component) {
