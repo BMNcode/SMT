@@ -296,6 +296,11 @@ public class Util {
         return result;
     }
 
+//    public static List<String> unionPartDataForVerifyComponents(Map<String, List<Component>> specSrc, Map<String,
+//                                                                List<Component>> assignSrc) {
+//
+//    }
+
     public static HSSFWorkbook createWB(List<String> list) {
         HSSFWorkbook resultBook = new HSSFWorkbook();
         HSSFSheet resultSheet = resultBook.createSheet();
@@ -326,6 +331,8 @@ public class Util {
         }
         return resultBook;
     }
+
+//    public static HSSFWorkbook createWB()
 
     /*
     находит референсы в строке

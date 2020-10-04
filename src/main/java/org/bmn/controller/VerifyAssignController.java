@@ -14,6 +14,7 @@ import org.bmn.util.Util;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 
 import static org.bmn.util.OutputResult.writeWorkbook;
 
@@ -73,6 +74,11 @@ public class VerifyAssignController {
             List<Component> assignComponentsList = new ComponentService().findAllinXLS(assignFile.toPath(),
                     Integer.parseInt(assignSheet.getText()), Integer.parseInt(assignRefColumn.getText()),
                     Integer.parseInt(assignPartColumn.getText()), ",");
+
+            Map<String, List<Component>> specMap = new ComponentService().groupReferenceByName(specComponentsList);
+            Map<String, List<Component>> assignMap = new ComponentService().groupReferenceByName(assignComponentsList);
+
+
 
             writeWorkbook(Util.createWB(Util.unionPartDataForVerifyComponents(assignComponentsList, specComponentsList)),
                     "verifyAssign.xls", assignFile.getParent());
