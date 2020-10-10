@@ -1,7 +1,5 @@
 package org.bmn.model;
 
-import javafx.scene.shape.Shape;
-
 import java.util.Objects;
 
 public class Component {
@@ -103,6 +101,11 @@ public class Component {
         double temp = component.getLocationX();
         component.setLocationX(-component.getLocationY());
         component.setLocationY(temp);
+        if(component.getRotation() < 270.0) {
+            component.setRotation(component.getRotation() + 90.0);
+        } else {
+            component.setRotation(0.0 + (component.getRotation() - 270.0));
+        }
     }
 
     public void flipNegative90(Component component) {
@@ -110,6 +113,11 @@ public class Component {
         double temp = component.getLocationX();
         component.setLocationX(component.getLocationY());
         component.setLocationY(-temp);
+        if(component.getRotation() != 0.0) {
+            component.setRotation(component.getRotation() - 90.0);
+        } else {
+            component.setRotation(270.0);
+        }
     }
 
     @Override

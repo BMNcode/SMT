@@ -5,9 +5,13 @@ import java.sql.SQLException;
 
 public class ConnectionUtils {
 
-    public static Connection getMyConnection() throws SQLException
+    public static Connection getMyConnection()
     {
-
-        return PostgresConnUtils.getPostgresConnection();
+        try {
+            return PostgresConnUtils.getPostgresConnection();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;
     }
 }
