@@ -10,6 +10,7 @@ public class Component {
     private String side;
     private double rotation;
     private ComponentShape componentShape;
+    private Boolean assign;
 
     public Component() {
     }
@@ -22,6 +23,20 @@ public class Component {
     public Component(String name, String reference) {
         this.name = name;
         this.reference = reference;
+    }
+
+    public Component(String name, String reference, Boolean assign) {
+        this.name = name;
+        this.reference = reference;
+        this.assign = assign;
+    }
+
+    public Component(String name, String reference, Double locationX, Double locationY, Boolean assign) {
+        this.name = name;
+        this.reference = reference;
+        this.locationX = locationX;
+        this.locationY = locationY;
+        this.assign = assign;
     }
 
     public Component(String reference, double locationX, double locationY, String side, double rotation) {
@@ -96,15 +111,23 @@ public class Component {
         this.componentShape = componentShape;
     }
 
+    public Boolean getAssign() {
+        return assign;
+    }
+
+    public void setAssign(Boolean assign) {
+        this.assign = assign;
+    }
+
     public void flipPositive90(Component component) {
         //против часовой стрелки
         double temp = component.getLocationX();
         component.setLocationX(-component.getLocationY());
         component.setLocationY(temp);
-        if(component.getRotation() < 270.0) {
-            component.setRotation(component.getRotation() + 90.0);
+        if (component.getRotation() != 0.0) {
+            component.setRotation(component.getRotation() - 90.0);
         } else {
-            component.setRotation(0.0 + (component.getRotation() - 270.0));
+            component.setRotation(270.0);
         }
     }
 
@@ -113,10 +136,15 @@ public class Component {
         double temp = component.getLocationX();
         component.setLocationX(component.getLocationY());
         component.setLocationY(-temp);
-        if(component.getRotation() != 0.0) {
+        if (component.getRotation() != 0.0) {
             component.setRotation(component.getRotation() - 90.0);
         } else {
             component.setRotation(270.0);
+        }
+        if (component.getRotation() < 270.0) {
+            component.setRotation(component.getRotation() + 90.0);
+        } else {
+            component.setRotation(0.0 + (component.getRotation() - 270.0));
         }
     }
 
@@ -134,7 +162,6 @@ public class Component {
         Component component = (Component) o;
         return Objects.equals(name, component.name);
     }
-
 
 
     @Override
@@ -155,7 +182,7 @@ public class Component {
     }
 
     public String customToString() {
-        return  reference + "    "
+        return reference + "    "
                 + locationX + "     "
                 + locationY + "     "
                 + side + "     "

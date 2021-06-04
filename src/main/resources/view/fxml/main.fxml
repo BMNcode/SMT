@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="421.0" prefWidth="582.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.bmn.controller.MainController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="393.0" prefWidth="355.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.bmn.controller.MainController">
    <Button fx:id="assign" cancelButton="true" defaultButton="true" layoutX="38.0" layoutY="100.0" onAction="#onClickVerifyAssign" prefHeight="45.0" prefWidth="280.0" text="проверить assign и спеку" textAlignment="CENTER">
       <font>
          <Font size="21.0" />
@@ -59,8 +60,24 @@
          </LinearGradient>
       </textFill>
    </Button>
+   <Button fx:id="createAssign" cancelButton="true" defaultButton="true" layoutX="38.0" layoutY="317.0" onAction="#onClickRedirectCreateAssign" prefHeight="45.0" prefWidth="280.0" text="create assign" textAlignment="CENTER">
+      <font>
+         <Font size="21.0" />
+      </font>
+      <textFill>
+         <LinearGradient endX="1.0" endY="1.0" startX="0.3333333333333333">
+            <stops>
+               <Stop color="BLACK" />
+               <Stop color="WHITE" offset="1.0" />
+            </stops>
+         </LinearGradient>
+      </textFill>
+   </Button>
    <effect>
       <Blend />
    </effect>
+   <padding>
+      <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+   </padding>
 
 </AnchorPane>

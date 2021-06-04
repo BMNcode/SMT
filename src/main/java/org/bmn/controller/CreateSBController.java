@@ -35,6 +35,7 @@ public class CreateSBController {
     public TextField panelX;
     public TextField panelY;
     public Button save;
+    public Button load;
     @FXML
     private ScrollPane scroll;
     Image image;
@@ -52,6 +53,7 @@ public class CreateSBController {
 
     private String pattern = "[xX]{1}[-]?(\\d)*[yY]{1}[-]?(\\d)*";
 
+    //вызов окна редактора сборки
     public void imageEditor() {
         try {
             Stage stageImageEditor = new Stage();
@@ -67,26 +69,21 @@ public class CreateSBController {
         }
     }
 
-
+    //Загрузка рисунка(основы) для будущего наложения на него компонентов
     public void LoadFile() {
-//        FileChooser fileChooser = new FileChooser();
-        try {
-//            File fileLoadName = fileChooser.showOpenDialog(new Stage());
-//            FileInputStream fileInputStream = new FileInputStream(fileLoadName);
-//            image = new Image(fileInputStream);
-//            ImageView imageView = new ImageView(image);
-//            stackPane.getChildren().add(imageView);
-            FileInputStream fileInputStream = new FileInputStream("D:\\Java\\JavaProject\\SMT\\src\\main\\resources\\templateCanvas\\A3_550px_vert.png");
+        FileChooser fileChooser = new FileChooser();
+        File fileLoadName = fileChooser.showOpenDialog(new Stage());
+        try (FileInputStream fileInputStream = new FileInputStream(fileLoadName)){
             image = new Image(fileInputStream);
             ImageView imageView = new ImageView(image);
             stackPane.getChildren().add(imageView);
-
         } catch (Exception ex) {
             ex.printStackTrace();
         }
 
     }
 
+    //Загрузка компонентов на рисунок(основу)
     public void loadComponents() {
         FileChooser fileChooser = new FileChooser();
         File file = fileChooser.showOpenDialog(new Stage());
@@ -116,6 +113,7 @@ public class CreateSBController {
         }
     }
 
+    //Отрисовка границ панели
     public void drawPanel() {
         //чтение вводимых размеров
         panelSizeX = Double.parseDouble(panelX.getText());
@@ -154,6 +152,7 @@ public class CreateSBController {
         scroll.setContent(stackPane);
     }
 
+    //Сохранение готовой сборки
     public void captureAndSaveDisplay(){
         FileChooser fileChooser = new FileChooser();
 

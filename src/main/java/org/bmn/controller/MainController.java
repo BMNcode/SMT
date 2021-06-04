@@ -27,13 +27,19 @@ public class MainController {
     //кнопка перенапрвляет в окно редактора сборки
     @FXML
     public void onClickRedirectSB() {
-       new CreateSBController().imageEditor();
+        new CreateSBController().imageEditor();
     }
 
     //кнопка перенаправляет в окно сверки assign и спеки
     @FXML
     public void onClickVerifyAssign() {
         new VerifyAssignController().verifyAssignEditor();
+    }
+
+    //кнопка перенаправляет в окно для конвертирования списка компонентов из программы в assign b .xls фаил для сборки
+    @FXML
+    public void onClickRedirectCreateAssign() {
+        new CreateAssignController().createAssignEditor();
     }
 
 }

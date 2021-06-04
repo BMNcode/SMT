@@ -9,12 +9,12 @@ import org.bmn.model.Component;
 import org.bmn.repos.ComponentRepo;
 import org.bmn.util.Util;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -158,7 +158,7 @@ public class ComponentService implements ComponentRepo {
     @Override
     public List<Component> findAllinXLS(Path path, int numSheet, int numRefColumn,
                                         int numPartColumn, int xCoordinateColumn,
-                                        int yCoordinateColumn, int rotateColumn, String delimiter) throws IOException{
+                                        int yCoordinateColumn, int rotateColumn, String delimiter) throws IOException {
         //read xls source file
         HSSFWorkbook workbook = new HSSFWorkbook(new POIFSFileSystem(new FileInputStream(path.toFile())));
         //create container for components
@@ -191,6 +191,82 @@ public class ComponentService implements ComponentRepo {
         return components;
     }
 
+    //find all components buffer to Map
+    public Map<Component, Boolean> forCreateAssign(String buffer) {
+
+        List<List<String>> table = Arrays.stream(buffer.split("\\n"))
+                .map(str -> Arrays.asList(str.split("\\t")))
+                .collect(Collectors.toList());
+
+        return table.stream()
+                .map(getList -> new Component(getList.get(5), getList.get(1), getList.get(17).isEmpty()))
+                .collect(Collectors.toMap(Function.identity(), a -> a.getAssign()));
+    }
+
+    //find all components buffer to List
+    public List<String> forCreateAssignInList(String buffer) {
+
+        List<String> f = new ArrayList<>();
+
+        Map<String, List<String>> res1 = Arrays.stream(buffer.split("\\n"))
+                .filter(s -> !s.startsWith("Board"))
+                .map(str -> Arrays.asList(str.split("\\t")))
+                .map(getList -> new Component(getList.get(5), getList.get(1), !getList.get(17).isEmpty()))
+                .filter(Component::getAssign)
+                .collect(Collectors.groupingBy(Component::getName, 
+                        Collectors.mapping(Component::getReference, Collectors.toList())));
+
+        Map<String, List<String>> res2 = Arrays.stream(buffer.split("\\n"))
+                .filter(s -> !s.startsWith("Board"))
+                .map(str -> Arrays.asList(str.split("\\t")))
+                .map(getList -> new Component(getList.get(5), getList.get(1), getList.get(17).isEmpty()))
+                .filter(Component::getAssign)
+                .collect(Collectors.groupingBy(Component::getName,
+                        Collectors.mapping(Component::getReference, Collectors.toList())));
+
+        Map<String, List<String>> sortedRes1 = res1.entrySet()
+                .stream()
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (first, conflict) -> first,
+                        TreeMap::new
+                ));
+
+        Map<String, List<String>> sortedRes2 = res2.entrySet()
+                .stream()
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (first, conflict) -> first,
+                        TreeMap::new
+                ));
+
+        for (Map.Entry<String, List<String>> item : sortedRes1.entrySet()) {
+            List<String> sortValue = item.getValue();
+            Collections.sort(sortValue);
+            f.add(String.join(";", String.join(",", sortValue), item.getKey(), String.valueOf(item.getValue().size())));
+
+        }
+
+        for (Map.Entry<String, List<String>> item : sortedRes2.entrySet()) {
+            List<String> sortValue = item.getValue();
+            Collections.sort(sortValue);
+            f.add(String.join(";", String.join(",", sortValue), item.getKey(), "не уст"));
+
+        }
+
+        return f;
+    }
+
+    public List<String> forCreateTTOrBB(String buffer) {
+        return Arrays.stream(buffer.split("\\n"))
+                .filter(s -> !s.startsWith("Board"))
+                .map(str -> Arrays.stream(str.split("\\t")))
+                .map(listStr -> listStr.collect(Collectors.joining(";")))
+                .collect(Collectors.toList());
+    }
+
     public static int getDigit(String s) {
         char[] src = s.toCharArray();
         StringBuilder sb = new StringBuilder();
@@ -213,13 +289,16 @@ public class ComponentService implements ComponentRepo {
         return sb.toString();
     }
 
-    public Map<String, List<Component>> groupReferenceByName (List<Component> componentsList) {
+    //группировка по partName  и возврат Map
+    public Map<String, List<Component>> groupReferenceByName(List<Component> componentsList) {
 
         Map<String, List<Component>> groupName = componentsList.stream()
                 .collect(Collectors.groupingBy(Component::getName));
 
         return groupName;
     }
+
+
 
 //    public static void main(String[] args) throws IOException {
 //        File file = new File("D:\\!WORK\\#7924.01.xls");

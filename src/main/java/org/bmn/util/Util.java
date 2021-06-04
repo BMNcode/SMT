@@ -56,7 +56,7 @@ public class Util {
         List<String> temp = new ArrayList<>(src);
         int countColumn = temp.get(0).split(delimiter).length;
         String v = Stream.generate(() -> " ")
-                .limit(countColumn*countSpace)
+                .limit(countColumn * countSpace)
                 .collect(Collectors.joining());
 
         StringBuilder sb = new StringBuilder(v);
@@ -73,7 +73,6 @@ public class Util {
                 });
         return result;
     }
-
 
 
     public static String customFormat(String pattern, double value) {
@@ -214,6 +213,17 @@ public class Util {
         return style;
     }
 
+    private static HSSFCellStyle createBlackStyle(HSSFWorkbook workbook) {
+        HSSFFont font = workbook.createFont();
+        font.setColor(IndexedColors.BLACK.index);
+
+        short black = IndexedColors.BLACK.getIndex();
+        HSSFCellStyle style = workbook.createCellStyle();
+        style.setFont(font);
+
+        return style;
+    }
+
     public static List<String> getDataAssignXlsInList(HSSFWorkbook wb, int indexSheet, String typeWB) {
         int length = 0;
         List<String> xlsList = new ArrayList<>();
@@ -279,14 +289,14 @@ public class Util {
     public static List<String> unionPartDataForVerifyComponents(List<Component> assign, List<Component> spec) {
         List<String> result = new ArrayList<>();
         StringBuilder pattern = new StringBuilder();
-        for(Component sp : spec) {
+        for (Component sp : spec) {
             for (Component asgn : assign) {
                 if (sp.equals(asgn)) {
                     pattern.append(sp.getReference()).append("      ").append(sp.getName()).append("  <----------->  ")
                             .append(asgn.getReference()).append("      ").append(asgn.getName());
                 }
             }
-            if(pattern.toString().isEmpty()) {
+            if (pattern.toString().isEmpty()) {
                 pattern = new StringBuilder();
                 pattern.append(sp.getReference()).append("      ").append(sp.getName()).append("  <<<не найден");
             }
@@ -298,6 +308,7 @@ public class Util {
 
 //    public static List<String> unionPartDataForVerifyComponents(Map<String, List<Component>> specSrc, Map<String,
 //                                                                List<Component>> assignSrc) {
+//
 //
 //    }
 
@@ -328,6 +339,29 @@ public class Util {
                     }
                 }
             }
+        }
+        return resultBook;
+    }
+
+    public static HSSFWorkbook createWBWithoutBorder(List<String> list) {
+
+        HSSFWorkbook resultBook = new HSSFWorkbook();
+        HSSFSheet resultSheet = resultBook.createSheet();
+        HSSFCellStyle styleBlack = Util.createBlackStyle(resultBook);
+        Cell resultCell;
+        Row resultRow;
+        for (int i = 0; i < list.size(); i++) {
+            resultRow = resultSheet.createRow(i);
+            String[] rowSplit = list.get(i).split(";");
+
+            for (int j = 0; j < rowSplit.length; j++) {
+                {
+                    resultCell = resultRow.createCell(j, CellType.STRING);
+                    resultCell.setCellValue(rowSplit[j]);
+                    resultCell.setCellStyle(styleBlack);
+                }
+            }
+
         }
         return resultBook;
     }
@@ -386,9 +420,21 @@ public class Util {
 
     public static String getFileExtension(File file) {
         String fileName = file.getName();
-        if(fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0)
-            return fileName.substring(fileName.lastIndexOf(".")+1);
+        if (fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0)
+            return fileName.substring(fileName.lastIndexOf(".") + 1);
         else return "";
+    }
+
+    public static List<String> transXAndYLocation(List<String> src, double x, double y) {
+        List<String> result = new ArrayList<>();
+        for (int i = 0; i < src.size(); i++) {
+            String[] tempArray = src.get(i).split(";");
+            tempArray[2] = String.valueOf(Double.parseDouble(tempArray[2]) - x);
+            tempArray[3] = String.valueOf(Double.parseDouble(tempArray[3]) - y);
+            result.add(String.join(";", tempArray));
+        }
+
+        return result;
     }
 
 

@@ -7,7 +7,7 @@
    <children>
       <Button layoutX="8.0" layoutY="123.0" mnemonicParsing="false" onAction="#assignView" prefHeight="32.0" prefWidth="154.0" text="assign" AnchorPane.topAnchor="123.0" />
       <Button layoutX="8.0" layoutY="22.0" mnemonicParsing="false" onAction="#spekaView" prefHeight="32.0" prefWidth="154.0" text="спека" AnchorPane.topAnchor="22.0" />
-      <Button layoutX="235.0" layoutY="229.0" mnemonicParsing="false" onAction="#createVerify" prefHeight="32.0" prefWidth="154.0" text="поехали!" />
+      <Button layoutX="333.0" layoutY="226.0" mnemonicParsing="false" onAction="#createVerify" prefHeight="32.0" prefWidth="154.0" text="в фаил!" />
       <TextField fx:id="refSpecColumn" alignment="CENTER" layoutX="286.0" layoutY="26.0" prefHeight="25.0" prefWidth="47.0" />
       <TextField fx:id="partSpecColumn" alignment="CENTER" layoutX="446.0" layoutY="26.0" prefHeight="25.0" prefWidth="47.0" />
       <Label layoutX="194.0" layoutY="22.0" prefHeight="32.0" prefWidth="79.0" text="# Ref. column" />
@@ -22,5 +22,6 @@
       <TextField fx:id="specSheet" alignment="CENTER" layoutX="565.0" layoutY="26.0" prefHeight="25.0" prefWidth="47.0" text="1" />
       <Label layoutX="509.0" layoutY="124.0" prefHeight="32.0" prefWidth="47.0" text="# sheet" />
       <TextField fx:id="assignSheet" alignment="CENTER" layoutX="565.0" layoutY="128.0" prefHeight="25.0" prefWidth="47.0" text="1" />
+      <Button layoutX="139.0" layoutY="226.0" mnemonicParsing="false" onAction="#onScreen" prefHeight="32.0" prefWidth="147.0" text="на экран!" />
    </children>
 </AnchorPane>

@@ -9,7 +9,7 @@
       <Button layoutX="542.0" layoutY="34.0" mnemonicParsing="false" onAction="#loadComponents" prefHeight="35.0" prefWidth="76.0" text="load Components" AnchorPane.rightAnchor="52.0" />
       <ScrollPane fx:id="scroll" layoutY="67.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="378.0" prefWidth="500.0" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="170.0" AnchorPane.topAnchor="67.0">
          <content>
-            <StackPane fx:id="stackPane" prefHeight="444.0" prefWidth="498.0" />
+            <StackPane fx:id="stackPane" prefHeight="376.0" prefWidth="498.0" />
          </content>
       </ScrollPane>
       <TextField fx:id="panelX" layoutX="14.0" layoutY="22.0" prefHeight="25.0" prefWidth="57.0" AnchorPane.topAnchor="22.0" />
